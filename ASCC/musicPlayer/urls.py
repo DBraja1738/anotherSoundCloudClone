@@ -7,4 +7,5 @@ app_name = "App"
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("upload_song/",views.upload_song,name="upload_song")
 ]
