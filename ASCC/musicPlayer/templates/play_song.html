@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %} {{song.title}} {% endblock title %}
+
+{% block content %}
+{{ song.title }} - {{ song.artist }}
+<div><img style="height: 200px; width: 200px;" src="{{song.image.url}}" alt="{{song.title}}"></div>    
+<audio controls>
+            
+    <source src="{{ song.audio_file.url }}" type="audio/mp3">
+
+</audio>
+{% endblock content %}
+

@@ -5,3 +5,4 @@ class SongUploadForm(forms.ModelForm):
     class Meta:
         model=Song
         fields=["title","artist","image","audio_file"]
+
