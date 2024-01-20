@@ -10,6 +10,7 @@ class Song(models.Model):
     duration=models.CharField(max_length=20)
     paginate_by = 2
     user=models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    listen_count=models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title

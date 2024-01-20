@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}List of all songs{% endblock title %}
+{% block content %}
+<style>
+    .image {
+        width: 200px;
+        height: 200px;
+    }
+</style>
+
+<h1>Song List</h1>
+
+    <ul>
+        {% for song in songs %}
+            <li>
+                {{ song.title }} - {{ song.artist }}
+                <div><img class="image" src="{{song.image.url}}" alt="{{song.title}}"></div>
+                <br>
+                <audio controls>
+                    
+                    <source src="{{ song.audio_file.url }}" type="audio/mp3">
+                    Your browser does not support the audio element.
+                </audio>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

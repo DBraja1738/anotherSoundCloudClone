@@ -25,3 +25,7 @@ def upload_song(request):
         form = SongUploadForm()
 
     return render(request, 'upload_song.html', {'form': form})
+
+def songList(request):
+    songs=Song.objects.all()
+    return render(request,"listSongs.html",{"songs" : songs})
