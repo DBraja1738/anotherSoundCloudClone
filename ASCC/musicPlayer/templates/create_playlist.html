@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Create Playlist{% endblock title %}
+
+{% block content %}
+    <h1 class=text-center>Create a playlist<h1>
+
+            <div class="container-fluid">
+                <form method="POST" action="{% url "createPlaylist" %}">
+                    {% csrf_token %}
+                    <div class="">
+                        <label for="playlist_name">Playlist Name:</label>
+                        <input type="text" id="playlist_name" name="playlist_name" required>
+                        <br>
+                        <br>
+
+                        {% for song in songs  %}
+                        <div class="row">
+                            <div class="col">
+                            
+                            </div>
+                        
+                            <div class="col-6">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <label>
+
+                                            <input type="checkbox" name="songs", value="{{song.id}}">
+                                            {% comment %} <img src="{{song.image.url}}" class="img-thumbnail"> {% endcomment %}
+                                            {{song.title}} - {{song.artist}}
+                                            <br>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        
+                            <div class="col">
+
+                            </div>
+
+                        </div>
+                        {% endfor %}
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success text-center">
+                                Create playlist
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+{% endblock content %}

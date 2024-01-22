@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from . models import Song
+from . models import Song, Playlist
 from .forms import SongUploadForm
 
 def index(request):
@@ -35,3 +35,15 @@ def play_song(request,song_id):
     song.listen_count += 1
     song.save()
     return render(request, 'play_song.html', {'song': song})
+
+def create_playlist(request):
+    if request.method=="POST":
+        playlist_name=request.POST.get("playlist_name")
+        song_ids=request.POST.getlist("songs")
+
+        playlist = Playlist.objects.create(user=request.user, name=playlist_name)
+        playlist.songs.add(*song_ids)
+    
+    songs=Song.objects.all()
+
+    return render(request, "create_playlist.html", {"songs" : songs})

@@ -12,5 +12,9 @@ class Song(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     listen_count=models.PositiveIntegerField(default=0)
 
-    def __str__(self):
-        return self.title
+
+
+class Playlist(models.Model):
+    name=models.TextField()
+    user=models.ForeignKey(User,on_delete=models.CASCADE, null=True)
+    songs=models.ManyToManyField("Song")

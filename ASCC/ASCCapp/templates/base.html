@@ -25,11 +25,15 @@
                 {% if user.is_authenticated %}
                   
                   <li class="nav-item">
-                    <a class="nav-link" href="/player/upload_song">Upload a song</a>
+                    <a class="nav-link" href="{% url "uploadSong" %}">Upload a song</a>
                   </li>
 
                   <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'createPlaylist' %}">Create a playlist</a>
                   </li>
                   
                 {%endif%}
