@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from . models import Song, Playlist
-from .forms import SongUploadForm
+from .forms import SongUploadForm, SongSearchForm
 
 def index(request):
     paginator= Paginator(Song.objects.all(),1)
@@ -47,3 +47,16 @@ def create_playlist(request):
     songs=Song.objects.all()
 
     return render(request, "create_playlist.html", {"songs" : songs})
+
+def songSearch(request):
+    if request.method=="POST":
+        form=SongSearchForm(request.POST)
+        if form.is_valid():
+            searchQuery=form.cleaned_data["searchQuery"]
+            songs=Song.objects.filter(title__icontains=searchQuery)
+        else:
+            songs=Song.objects.all()
+    else:
+        form=SongSearchForm()
+        songs=Song.objects.all()
+    return render(request, "searchSong.html", {"form":form , "songs":songs})

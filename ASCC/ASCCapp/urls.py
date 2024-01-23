@@ -7,4 +7,5 @@ urlpatterns=[
     path("listOfSongs/", mPlayerV.songList, name="songList"),
     path("createPlaylist/",mPlayerV.create_playlist, name="createPlaylist"),
     path("uploadSong/",mPlayerV.upload_song, name="uploadSong"),
+    path("songSearch/",mPlayerV.songSearch, name="songSearch"),
 ]
