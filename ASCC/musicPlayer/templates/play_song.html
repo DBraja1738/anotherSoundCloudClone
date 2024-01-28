@@ -10,5 +10,42 @@
     <source src="{{ song.audio_file.url }}" type="audio/mp3">
 
 </audio>
+
+<p>Likes: {{ song.likes }}</p>
+
+<h2>Comments:</h2>
+<ul class="list-unstyled">
+    {% for comment in comments %}
+        <li>&emsp;{{ comment.body }} - {{ comment.user.username }}</li>
+    {% endfor %}
+</ul>
+
+<div class="container-fluid">
+    <div class="row">
+       
+        <form method="post" action="{% url 'play_song' song_id=song.id %}">
+            {% csrf_token %}
+            <button class="btn" type="submit" name="like">
+                {% if user_has_liked %}
+                    UnLike
+                {% else %}
+                    Like
+                {% endif %}
+            </button>
+        </form>
+
+    </div>
+    <div class="row">
+        <form method="post" action="{% url 'play_song' song_id=song.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn " type="submit">Add Comment</button>
+        </form>
+    </div>
+    
+    
+    
+</div>
+
 {% endblock content %}
 

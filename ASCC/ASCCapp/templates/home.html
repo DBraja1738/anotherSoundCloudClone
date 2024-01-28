@@ -1,6 +1,21 @@
 {% extends "base.html" %} {%block title%} HomePage{%endblock%}
 
 {% block content %}
+<h1>Most listened songs</h1>
+<ul>
+    {% for song in songs %}
+        <li>
+            {{ song.title }} - {{ song.artist }}
+            <div><img style="height: 200px; width: 200px;" src="{{song.image.url}}" alt="{{song.title}}"></div>
+            <br>
+            Listen count: {{ song.listen_count }}
+            <br>
+            <a href="{% url 'play_song' song.id %}">Play</a>
+            
+        </li>
+        <br>
+    {% endfor %}
+</ul>
 <p>hello everyone</p>
 {% endblock %}
 

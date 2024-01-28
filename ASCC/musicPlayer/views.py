@@ -2,8 +2,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from . models import Song, Playlist
-from .forms import SongUploadForm, SongSearchForm
+from . models import Song, Playlist, Comment, Like
+from .forms import SongUploadForm, SongSearchForm, CommentForm
 
 def index(request):
     paginator= Paginator(Song.objects.all(),1)
@@ -32,9 +32,38 @@ def songList(request):
 
 def play_song(request,song_id):
     song = get_object_or_404(Song, pk=song_id)
+    comments=Comment.objects.filter(song=song)
+    user=request.user
+
+    user_has_liked = Like.objects.filter(user=user, song=song).exists()
+
+    if request.method=="POST":
+        form=CommentForm(request.POST)
+        if user_has_liked:
+            
+            song.likes -= 1
+            song.save()
+
+           
+            Like.objects.filter(user=user, song=song).delete()
+        else:
+           
+            song.likes += 1
+            song.save()
+
+           
+            Like.objects.create(user=user, song=song)
+
+        if form.is_valid():
+            newCommentText= form.cleaned_data["text"]
+            Comment.objects.create(user=request.user, song=song, body=newCommentText)
+            return redirect('play_song', song_id=song_id)
+    else:
+        form=CommentForm()
+    
     song.listen_count += 1
     song.save()
-    return render(request, 'play_song.html', {'song': song})
+    return render(request, 'play_song.html', {'song': song, "comments" : comments, "form" : form , 'user_has_liked': user_has_liked})
 
 def create_playlist(request):
     if request.method=="POST":

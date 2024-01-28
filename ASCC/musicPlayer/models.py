@@ -11,6 +11,9 @@ class Song(models.Model):
     paginate_by = 2
     user=models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     listen_count=models.PositiveIntegerField(default=0)
+    description=models.TextField(default="")
+
+    likes=models.PositiveIntegerField(default=0)
 
 
 
@@ -18,3 +21,13 @@ class Playlist(models.Model):
     name=models.TextField()
     user=models.ForeignKey(User,on_delete=models.CASCADE, null=True)
     songs=models.ManyToManyField("Song")
+
+class Comment(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE, null=True)
+    song=models.ForeignKey("Song",on_delete=models.CASCADE,related_name="comments")
+    body=models.TextField()
+    createdAt=models.DateTimeField(auto_now_add=True)
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    song = models.ForeignKey(Song, on_delete=models.CASCADE)

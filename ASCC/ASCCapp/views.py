@@ -1,9 +1,11 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from musicPlayer import models as musMod
 
 def home(request):
-    return render(request,"home.html")
+    songs= musMod.Song.objects.all().order_by("listen_count")
+    return render(request,"home.html",{"songs" : songs})
 
 def user_login(request):
     if request.method == 'POST':
