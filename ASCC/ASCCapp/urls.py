@@ -10,4 +10,5 @@ urlpatterns=[
     path("uploadSong/",mPlayerV.upload_song, name="uploadSong"),
     path("songSearch/",mPlayerV.songSearch, name="songSearch"),
     path('logout/', authV.LogoutView.as_view(), name='logout'),
+    path("profile/",mPlayerV.profileView, name="profile")
 ]

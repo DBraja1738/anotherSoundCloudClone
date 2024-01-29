@@ -1,16 +1,11 @@
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+
 from . models import Song, Playlist, Comment, Like
 from .forms import SongUploadForm, SongSearchForm, CommentForm
 
-def index(request):
-    paginator= Paginator(Song.objects.all(),1)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context={"page_obj":page_obj}
-    return render(request,"index.html",context)
+
 
 @login_required(login_url='login')
 def upload_song(request):
@@ -65,6 +60,7 @@ def play_song(request,song_id):
     song.save()
     return render(request, 'play_song.html', {'song': song, "comments" : comments, "form" : form , 'user_has_liked': user_has_liked})
 
+
 def create_playlist(request):
     if request.method=="POST":
         playlist_name=request.POST.get("playlist_name")
@@ -87,5 +83,12 @@ def songSearch(request):
             songs=Song.objects.all()
     else:
         form=SongSearchForm()
-        songs=Song.objects.all()
+        songs=None
     return render(request, "searchSong.html", {"form":form , "songs":songs})
+
+def profileView(request):
+    user=request.user
+    songs=Song.objects.filter(user=user)
+    playlists=Playlist.objects.filter(user=user)
+
+    return render(request,"profileView.html",{"songs" : songs, "playlists" : playlists})

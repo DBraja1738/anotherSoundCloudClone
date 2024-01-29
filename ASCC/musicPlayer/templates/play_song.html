@@ -16,7 +16,7 @@
 <h2>Comments:</h2>
 <ul class="list-unstyled">
     {% for comment in comments %}
-        <li>&emsp;{{ comment.body }} - {{ comment.user.username }}</li>
+        <li>&emsp;{{ comment.body }} - {{ comment.user.username }}:{{comment.createdAt}}</li>
     {% endfor %}
 </ul>
 
