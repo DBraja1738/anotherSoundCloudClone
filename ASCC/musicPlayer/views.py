@@ -30,6 +30,9 @@ def play_song(request,song_id):
     comments=Comment.objects.filter(song=song)
     user=request.user
 
+    if not request.user.is_authenticated:
+        return render(request, 'play_song.html', {'song': song, "comments" : comments})
+
     user_has_liked = Like.objects.filter(user=user, song=song).exists()
 
     if request.method=="POST":
@@ -58,6 +61,9 @@ def play_song(request,song_id):
     
     song.listen_count += 1
     song.save()
+
+ 
+
     return render(request, 'play_song.html', {'song': song, "comments" : comments, "form" : form , 'user_has_liked': user_has_liked})
 
 

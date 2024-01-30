@@ -16,36 +16,36 @@
 <h2>Comments:</h2>
 <ul class="list-unstyled">
     {% for comment in comments %}
-        <li>&emsp;{{ comment.body }} - {{ comment.user.username }}:{{comment.createdAt}}</li>
+        <li>&emsp;{{ comment.body }} - {{ comment.user.username }}: {{comment.createdAt}}</li>
     {% endfor %}
 </ul>
+{% if request.user.is_authenticated %}
+    <div class="container-fluid">
+        <div class="row">
+        
+            <form method="post" action="{% url 'play_song' song_id=song.id %}">
+                {% csrf_token %}
+                <button class="btn" type="submit" name="like">
+                    {% if user_has_liked %}
+                        UnLike
+                    {% else %}
+                        Like
+                    {% endif %}
+                </button>
+            </form>
 
-<div class="container-fluid">
-    <div class="row">
-       
-        <form method="post" action="{% url 'play_song' song_id=song.id %}">
-            {% csrf_token %}
-            <button class="btn" type="submit" name="like">
-                {% if user_has_liked %}
-                    UnLike
-                {% else %}
-                    Like
-                {% endif %}
-            </button>
-        </form>
+        </div>
+        <div class="row">
+            <form method="post" action="{% url 'play_song' song_id=song.id %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn " type="submit">Add Comment</button>
+            </form>
+        </div>
+
+
 
     </div>
-    <div class="row">
-        <form method="post" action="{% url 'play_song' song_id=song.id %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn " type="submit">Add Comment</button>
-        </form>
-    </div>
-    
-    
-    
-</div>
-
+{%endif%}
 {% endblock content %}
 
