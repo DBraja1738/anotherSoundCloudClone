@@ -4,7 +4,7 @@ from django.contrib import messages
 from musicPlayer import models as musMod
 
 def home(request):
-    songs= musMod.Song.objects.all().order_by("listen_count")
+    songs= musMod.Song.objects.all().order_by("-listen_count")
     return render(request,"home.html",{"songs" : songs})
 
 def user_login(request):
