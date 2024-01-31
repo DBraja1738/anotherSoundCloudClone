@@ -39,7 +39,7 @@
             <form method="post" action="{% url 'play_song' song_id=song.id %}">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button class="btn " type="submit">Add Comment</button>
+                <button class="btn " type="submit" name="comment">Add Comment</button>
             </form>
         </div>
 

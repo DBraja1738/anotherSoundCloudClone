@@ -37,28 +37,27 @@ def play_song(request,song_id):
 
     if request.method=="POST":
         form=CommentForm(request.POST)
-        if user_has_liked:
+
+        if 'like' in request.POST:
             
-            song.likes -= 1
+            if user_has_liked:
+                song.likes -= 1
+                Like.objects.filter(user=user, song=song).delete()
+            else:
+                song.likes += 1
+                Like.objects.create(user=user, song=song)
+
             song.save()
 
-           
-            Like.objects.filter(user=user, song=song).delete()
-        else:
-           
-            song.likes += 1
-            song.save()
+        elif 'comment' in request.POST:
+            
+            if form.is_valid():
+                new_comment_text = form.cleaned_data["text"]
+                Comment.objects.create(user=user, song=song, body=new_comment_text)
 
-           
-            Like.objects.create(user=user, song=song)
-
-        if form.is_valid():
-            newCommentText= form.cleaned_data["text"]
-            Comment.objects.create(user=request.user, song=song, body=newCommentText)
-            return redirect('play_song', song_id=song_id)
+        return redirect('play_song', song_id=song_id)
     else:
         form=CommentForm()
-    
     song.listen_count += 1
     song.save()
 
