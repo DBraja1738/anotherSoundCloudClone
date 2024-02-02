@@ -15,12 +15,19 @@ class Song(models.Model):
 
     likes=models.PositiveIntegerField(default=0)
 
+    def __str__(self):
+        return self.title
+    
+
 
 
 class Playlist(models.Model):
     name=models.TextField()
     user=models.ForeignKey(User,on_delete=models.CASCADE, null=True)
     songs=models.ManyToManyField("Song")
+
+    def __str__(self):
+        return self.name
 
 class Comment(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE, null=True)
