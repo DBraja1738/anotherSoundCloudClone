@@ -35,7 +35,7 @@
 
     <ul>
         {% for song in playlist.songs.all  %}
-            <li> {{song.title}} - {{song.artist}}</li>
+            <li> {{song.title}} - {{song.artist}} - <a href="{% url 'play_song' song.id %}">Play</a></li>
         {% endfor %}
     </ul>
 </ul>
