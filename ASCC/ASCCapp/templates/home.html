@@ -2,20 +2,27 @@
 
 {% block content %}
 <h1>Most listened songs</h1>
-<ul>
-    {% for song in songs %}
-        <li>
-            {{ song.title }} - {{ song.artist }}
-            <div><img style="height: 200px; width: 200px;" src="{{song.image.url}}" alt="{{song.title}}"></div>
-            <br>
-            Listen count: {{ song.listen_count }}
-            <br>
-            <a href="{% url 'play_song' song.id %}">Play</a>
-            
-        </li>
-        <br>
-    {% endfor %}
-</ul>
-<p>hello everyone</p>
+{% for song in songs %}
+    {% if forloop.counter0|divisibleby:4 %}
+        <div class="card-group">
+    {% endif %}
+    
+
+
+        <div class="card" style="width: 18rem;">
+            <img src="{{song.image.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{song.title}} - {{song.artist}}</h5>
+
+              <a href="{% url "play_song" song.id %}" class="btn btn-primary">Play</a>
+            </div>
+          </div>
+      
+
+    {% if forloop.counter0|add:1|divisibleby:4 or forloop.last %}
+        </div>
+    {% endif %}
+{% endfor %}
+
 {% endblock %}
 

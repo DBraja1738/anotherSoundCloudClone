@@ -65,7 +65,7 @@ def play_song(request,song_id):
 
     return render(request, 'play_song.html', {'song': song, "comments" : comments, "form" : form , 'user_has_liked': user_has_liked})
 
-
+@login_required(login_url='login')
 def create_playlist(request):
     if request.method=="POST":
         playlist_name=request.POST.get("playlist_name")
@@ -77,6 +77,7 @@ def create_playlist(request):
     songs=Song.objects.all()
 
     return render(request, "create_playlist.html", {"songs" : songs})
+
 
 def songSearch(request):
     if request.method=="POST":
@@ -91,6 +92,7 @@ def songSearch(request):
         songs=None
     return render(request, "searchSong.html", {"form":form , "songs":songs})
 
+@login_required(login_url='login')
 def profileView(request):
     user=request.user
     songs=Song.objects.filter(user=user)
@@ -98,7 +100,7 @@ def profileView(request):
 
     return render(request,"profileView.html",{"songs" : songs, "playlists" : playlists})
 
-
+@login_required(login_url='login')
 def play_playlist(request, playlist_id):
     playlist=get_object_or_404(Playlist, id=playlist_id)
     return render(request, "play_playlist.html", {"playlist" : playlist})

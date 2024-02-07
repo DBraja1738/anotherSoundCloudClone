@@ -13,12 +13,16 @@
     <div class="container-fluid">
         <nav class="navbar navbar-dark bg-primary navbar-expand-sm">
             <ul class="navbar-nav">
+
+              {%if not user.is_authenticated%}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'login' %}">Log In</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/register">Register</a>
                 </li>
+              {%endif%}
+
                 <li class="nav-item">
                   <a class="nav-link" href="{% url  "songList" %}">List all songs</a>
                 </li>

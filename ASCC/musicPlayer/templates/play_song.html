@@ -3,6 +3,7 @@
 {% block title %} {{song.title}} {% endblock title %}
 
 {% block content %}
+<div class="text-center">
 {{ song.title }} - {{ song.artist }}
 <div><img style="height: 200px; width: 200px;" src="{{song.image.url}}" alt="{{song.title}}"></div>    
 <audio controls>
@@ -12,20 +13,32 @@
 </audio>
 
 <p>Likes: {{ song.likes }}</p>
-
+<div class="container-fluid">
 <h2>Comments:</h2>
-<ul class="list-unstyled">
-    {% for comment in comments %}
-        <li>&emsp;{{ comment.body }} - {{ comment.user.username }}: {{comment.createdAt}}</li>
-    {% endfor %}
-</ul>
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col-3">
+            <ul class="list-group list-group-flush">
+                {% for comment in comments %}
+                    <li class="list-group-item">&emsp;{{ comment.body }} - {{ comment.user.username }}: {{comment.createdAt}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col">
+
+        </div>
+    </div>
+</div>
 {% if request.user.is_authenticated %}
     <div class="container-fluid">
         <div class="row">
         
             <form method="post" action="{% url 'play_song' song_id=song.id %}">
                 {% csrf_token %}
-                <button class="btn" type="submit" name="like">
+                <button class="btn btn-success" type="submit" name="like">
                     {% if user_has_liked %}
                         UnLike
                     {% else %}
@@ -46,6 +59,8 @@
 
 
     </div>
+
+</div>
 {%endif%}
 {% endblock content %}
 
