@@ -30,12 +30,12 @@
 
 <ul class="list-unstyled">
     <li>
-        {{playlist.name}}
+        {{playlist.name}} - <a href="{% url "play_playlist"  playlist_id=playlist.id %}">Play playlist</a>
     </li>
 
     <ul>
         {% for song in playlist.songs.all  %}
-            <li> {{song.title}} - {{song.artist}} - <a href="{% url 'play_song' song.id %}">Play</a></li>
+            <li> {{song.title}} - {{song.artist}} </li>
         {% endfor %}
     </ul>
 </ul>

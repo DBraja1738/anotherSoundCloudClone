@@ -97,3 +97,8 @@ def profileView(request):
     playlists=Playlist.objects.filter(user=user)
 
     return render(request,"profileView.html",{"songs" : songs, "playlists" : playlists})
+
+
+def play_playlist(request, playlist_id):
+    playlist=get_object_or_404(Playlist, id=playlist_id)
+    return render(request, "play_playlist.html", {"playlist" : playlist})
