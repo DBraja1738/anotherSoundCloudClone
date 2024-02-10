@@ -14,13 +14,15 @@
 
 <p>Likes: {{ song.likes }}</p>
 <div class="container-fluid">
-<h2>Comments:</h2>
+
     <div class="row">
         <div class="col">
-
+            <h3>Description</h3>
+            <div>{{song.description}}</div>
         </div>
         <div class="col-3">
             <ul class="list-group list-group-flush">
+                <h2>Comments:</h2>
                 {% for comment in comments %}
                     <li class="list-group-item">&emsp;{{ comment.body }} - {{ comment.user.username }}: {{comment.createdAt}}</li>
                 {% endfor %}
