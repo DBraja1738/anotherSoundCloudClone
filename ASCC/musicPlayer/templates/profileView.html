@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile{% endblock title %}
+
+{% block content %}
+<h1>Welcome {{ user.username }}</h1>
+
+<h2>My songs:</h2>
+
+{% for song in songs  %}
+
+    {% if forloop.counter0|divisibleby:4 %}
+    <div class="card-group">
+    {% endif %}
+
+
+
+        <div class="card" style="width: 18rem;">
+            <img src="{{song.image.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{song.title}} - {{song.artist}}</h5>
+            
+              <a href="{% url "play_song" song.id %}" class="btn btn-primary">Play</a>
+            </div>
+        </div>
+
+
+    {% if forloop.counter0|add:1|divisibleby:4 or forloop.last %}
+    </div>
+    {% endif %}
+<br>
+
+{% endfor %}
+
+
+
+<h3>My playlists:</h3>
+
+{% for playlist in playlists %}
+
+<ul class="list-unstyled">
+    <li>
+        {{playlist.name}} - <a href="{% url "play_playlist"  playlist_id=playlist.id %}">Play playlist</a>
+    </li>
+
+    <ul>
+        {% for song in playlist.songs.all  %}
+            <li> {{song.title}} - {{song.artist}} </li>
+        {% endfor %}
+    </ul>
+</ul>
+
+{% endfor %}
+{% endblock content %}
+

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    #player-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+    #album-cover {
+        max-width: 100px;
+        max-height: 100px;
+        margin: 10px;
+    }
+</style>
+
+
+<h1>{{ playlist.title }}</h1>
+
+<div id="player-container">
+    <h2 id="current-song-title">Current Song: None</h2>
+    <img id="album-cover" src="" alt="Album Cover">
+    <br>
+    <button id="play-button">Play</button>
+    <button id="next-button">Next Song</button>
+    <button id="stop-button">Stop</button>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+</div>
+
+<script>
+    const playlist = [
+    {% for song in playlist.songs.all %} { title: "{{song.title}}", src: "{{song.audio_file.url}}", image: "{{song.image.url}}"}, {% endfor %} 
+];
+
+const currentSongTitleElement = document.getElementById('current-song-title');
+const albumCoverElement = document.getElementById('album-cover');
+
+let currentSongIndex = 0;
+const audio = new Audio();
+audio.volume=0.5
+function play() {
+    audio.src = playlist[currentSongIndex].src;
+    audio.play();
+    updateCurrentSongTitle();
+    updateAlbumCover();
+}
+
+function nextSong() {
+    currentSongIndex = (currentSongIndex + 1) % playlist.length;
+    play();
+}
+
+function stopSong(){
+    audio.src=playlist[currentSongIndex].src;
+    audio.stop();
+    killCurrentSongTitle();
+
+}
+
+function setVolume(volume) {
+    audio.volume = volume;
+}
+
+function updateCurrentSongTitle() {
+    currentSongTitleElement.textContent = `Current Song: ${playlist[currentSongIndex].title}`;
+}
+
+function killCurrentSongTitle() {
+    currentSongTitleElement.textContent = `Current Song: None`;
+}
+
+function updateAlbumCover() {
+    albumCoverElement.src = playlist[currentSongIndex].image;
+}
+
+
+document.getElementById('play-button').addEventListener('click', play);
+document.getElementById('next-button').addEventListener('click', nextSong);
+document.getElementById('stop-button').addEventListener('click', stopSong);
+
+document.getElementById('volume-slider').addEventListener('input', function () {
+setVolume(parseFloat(this.value));
+});
+</script>
+{% endblock content %}
